@@ -568,6 +568,10 @@ async function renderRants() {
     
     console.log('Active rants:', activeRants.length, 'Deactivated:', deactivatedRants.length);
     
+    if (activeRants.length > 0) {
+        console.log('First active rant:', activeRants[0]);
+    }
+    
     // Cache all duvvs for share buttons
     rants.forEach(r => duvvDetailsCache.set(r.id, r));
 
@@ -619,6 +623,9 @@ async function renderRants() {
     container.innerHTML =
         activeRants.map(r => rantCard(r, false)).join('') +
         deactivatedRants.map(r => rantCard(r, true)).join('');
+    
+    console.log('Container HTML length:', container.innerHTML.length);
+    console.log('Container has cards:', container.querySelectorAll('.rant-card').length);
 
     document.querySelectorAll('.rant-card').forEach(card => {
         card.addEventListener('click', (e) => {
