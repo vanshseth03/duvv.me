@@ -120,7 +120,7 @@ const continueToApp = document.getElementById('continueToApp');
 // Check if already logged in (only on index page)
 const existingUser = getCookie('duvvUsername');
 if (welcomeScreen && existingUser && getCookie('duvvRecoveryCode')) {
-    window.location.href = '/app.html';
+    window.location.href = '/' + existingUser;
 }
 
 // Navigation
@@ -258,7 +258,7 @@ if (continueToApp) {
             if (token) {
                 setCookie(API_CONFIG.TOKEN_KEY, token);
             }
-            window.location.href = '/app.html';
+            window.location.href = '/' + username;
         }
     });
 }
@@ -300,7 +300,7 @@ if (recoverForm) {
                     setCookie('duvvUsername', data.user.username);
                     setCookie('duvvRecoveryCode', code);
                     
-                    window.location.href = '/app.html';
+                    window.location.href = '/' + data.user.username;
                 } else {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalBtnText;
@@ -318,7 +318,7 @@ if (recoverForm) {
             if (recoveredUsername) {
                 setCookie('duvvUsername', recoveredUsername);
                 setCookie('duvvRecoveryCode', code);
-                window.location.href = '/app.html';
+                window.location.href = '/' + recoveredUsername;
             }
         }
     });

@@ -475,24 +475,28 @@ async function getRants(forceRefresh = false) {
             });
             if (response.ok) {
                 const data = await response.json();
-                cachedDuvvs = data.duvvs.map(d => ({
-                    id: d.duvvId || d.id,
-                    question: d.question,
-                    theme: d.theme,
-                    responseTypes: d.responseTypes,
-                    isPremium: d.isPremium,
-                    createdAt: d.createdAt,
-                    responses: [],
-                    responseCount: d.responseCount || 0,
-                    views: d.views || 0,
-                    deactivated: false
-                }));
-                cacheTimestamp = Date.now();
-                fetchingRants = false;
-                return cachedDuvvs;
+                if (data.duvvs && Array.isArray(data.duvvs)) {
+                    cachedDuvvs = data.duvvs.map(d => ({
+                        id: d.duvvId || d.id,
+                        question: d.question,
+                        theme: d.theme,
+                        responseTypes: d.responseTypes,
+                        isPremium: d.isPremium,
+                        createdAt: d.createdAt,
+                        responses: [],
+                        responseCount: d.responseCount || 0,
+                        views: d.views || 0,
+                        deactivated: false
+                    }));
+                    cacheTimestamp = Date.now();
+                    fetchingRants = false;
+                    return cachedDuvvs;
+                }
+            } else {
+                console.error('Failed to fetch duvvs:', response.status, await response.text());
             }
             fetchingRants = false;
-            return [];
+            return cachedDuvvs || [];
         } catch (error) {
             fetchingRants = false;
             return [];
