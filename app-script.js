@@ -473,8 +473,13 @@ async function getRants(forceRefresh = false) {
             const response = await fetch(`${API_CONFIG.API_BASE_URL}/duvvs`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
+            
+            console.log('Duvvs fetch response:', response.status);
+            
             if (response.ok) {
                 const data = await response.json();
+                console.log('Duvvs data received:', data);
+                
                 if (data.duvvs && Array.isArray(data.duvvs)) {
                     cachedDuvvs = data.duvvs.map(d => ({
                         id: d.duvvId || d.id,
@@ -490,16 +495,21 @@ async function getRants(forceRefresh = false) {
                     }));
                     cacheTimestamp = Date.now();
                     fetchingRants = false;
+                    console.log('Cached duvvs:', cachedDuvvs.length);
                     return cachedDuvvs;
+                } else {
+                    console.error('Invalid data structure:', data);
                 }
             } else {
-                console.error('Failed to fetch duvvs:', response.status, await response.text());
+                const errorText = await response.text();
+                console.error('Failed to fetch duvvs:', response.status, errorText);
             }
             fetchingRants = false;
             return cachedDuvvs || [];
         } catch (error) {
+            console.error('Error fetching duvvs:', error);
             fetchingRants = false;
-            return [];
+            return cachedDuvvs || [];
         }
     }
     return [];
