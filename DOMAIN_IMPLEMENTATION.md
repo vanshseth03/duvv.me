@@ -78,7 +78,7 @@ Value: duvv-me-api.onrender.com
 6. Click **"Create Web Service"**
 7. After deployment, go to **Settings > Custom Domains**
 8. Add: `api.duvv.me`
-9. Render will verify DNS and provision SSL automatically
+9.  
 
 **Result**: Your backend will be live at `https://api.duvv.me` with SSL 🔒
 

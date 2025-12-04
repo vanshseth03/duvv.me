@@ -2705,26 +2705,66 @@ async function showCanvasShareDialog() {
     }
 })();
 
-// Welcome Tutorial for New Users
-async function showWelcomeTutorial() {
-    await showAlert(
-        `🎉 Welcome to duvv.me!\n\n` +
-        `Here's how it works:\n\n` +
-        `1️⃣ Create a Duvv (question) by clicking "Start duvingg"\n` +
-        `2️⃣ Choose a preset or write your own question\n` +
-        `3️⃣ Pick a theme and publish it\n` +
-        `4️⃣ Share your link with friends\n` +
-        `5️⃣ Get anonymous responses (text, audio, or drawings!)\n\n` +
-        `Your link: duvv.me/${username} 🔗\n\n` +
-        `Let's create your first duvv! 🚀`,
-        'Quick Tutorial',
-        '💭'
-    );
-}
-
 // Add after premium logic and before renderRants()
 let themeChangeModal = null;
 let themeChangeRantId = null;
+
+// Welcome Tutorial for New Users
+function showWelcomeTutorial() {
+    const overlay = document.getElementById('welcomeDialogOverlay');
+    if (!overlay) return;
+    
+    let currentStep = 1;
+    const totalSteps = 3;
+    
+    // Show overlay
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Get elements
+    const closeBtn = document.getElementById('welcomeClose');
+    const skipBtn = document.getElementById('welcomeSkip');
+    const nextBtn = document.getElementById('welcomeNext');
+    const steps = overlay.querySelectorAll('.welcome-step');
+    const dots = overlay.querySelectorAll('.step-dot');
+    
+    // Update UI for current step
+    function updateStep() {
+        steps.forEach((step, index) => {
+            step.classList.toggle('hidden', index + 1 !== currentStep);
+        });
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index + 1 === currentStep);
+        });
+        nextBtn.textContent = currentStep === totalSteps ? 'Get Started! 🚀' : 'Next';
+    }
+    
+    // Close dialog
+    function closeDialog() {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    // Event listeners
+    const handleNext = () => {
+        if (currentStep < totalSteps) {
+            currentStep++;
+            updateStep();
+        } else {
+            closeDialog();
+        }
+    };
+    
+    const handleSkip = closeDialog;
+    const handleClose = closeDialog;
+    
+    nextBtn.onclick = handleNext;
+    skipBtn.onclick = handleSkip;
+    closeBtn.onclick = handleClose;
+    
+    // Initial state
+    updateStep();
+}
 
 // Helper to open theme change modal
 function openThemeChangeModal(rantId) {
