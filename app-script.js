@@ -20,6 +20,17 @@ function deleteCookie(name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
 }
 
+function clearAllCookies() {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf('=');
+        const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=' + window.location.hostname;
+    }
+}
+
 // Custom Dialog System
 function showDialog(options) {
     return new Promise((resolve) => {
@@ -128,9 +139,9 @@ if (!username || !recoveryCode) {
 if (typeof API_CONFIG !== 'undefined' && API_CONFIG.USE_API) {
     const token = getCookie(API_CONFIG.TOKEN_KEY);
     if (!token) {
-
-        deleteCookie('duvvUsername');
-        deleteCookie('duvvRecoveryCode');
+        clearAllCookies();
+        localStorage.clear();
+        sessionStorage.clear();
         window.location.href = '/index.html';
         throw new Error("No API token");
     }
@@ -2217,8 +2228,9 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
         true
     );
     if (confirmed) {
-        deleteCookie('duvvUsername');
-        deleteCookie('duvvRecoveryCode');
+        clearAllCookies();
+        localStorage.clear();
+        sessionStorage.clear();
         window.location.href = '/';
     }
 });

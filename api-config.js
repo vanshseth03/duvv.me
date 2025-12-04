@@ -73,6 +73,11 @@ function setApiToken(token) {
 function removeApiToken() {
     localStorage.removeItem(API_CONFIG.TOKEN_KEY);
     deleteCookie('duvvToken');
+    if (typeof clearAllCookies === 'function') {
+        clearAllCookies();
+    }
+    localStorage.clear();
+    sessionStorage.clear();
 }
 
 /**
