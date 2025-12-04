@@ -2480,12 +2480,12 @@ body.bright-mode .hint-value {
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
     z-index: 10000;
+    align-items: center;
+    justify-content: center;
 }
 
 .custom-dialog-overlay.active {
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 body.bright-mode .custom-dialog-overlay {
