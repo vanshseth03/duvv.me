@@ -491,7 +491,7 @@ async function getRants(forceRefresh = false) {
                         responses: [],
                         responseCount: d.responseCount || 0,
                         views: d.views || 0,
-                        deactivated: false
+                        deactivated: d.deactivated || false
                     }));
                     cacheTimestamp = Date.now();
                     fetchingRants = false;
@@ -561,9 +561,12 @@ async function renderRants() {
     `;
     
     const rants = await getRants();
+    console.log('Rendering rants:', rants);
     await updateStats(rants); // Pass rants to avoid double fetch
     const activeRants = rants.filter(r => !r.deactivated);
     const deactivatedRants = rants.filter(r => r.deactivated);
+    
+    console.log('Active rants:', activeRants.length, 'Deactivated:', deactivatedRants.length);
     
     // Cache all duvvs for share buttons
     rants.forEach(r => duvvDetailsCache.set(r.id, r));
