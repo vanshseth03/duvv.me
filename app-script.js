@@ -2694,9 +2694,10 @@ async function showCanvasShareDialog() {
     }
 }
 
-// Initialize
-updateStats();
-renderRants();
+// Initialize - Make async to properly wait for data
+(async function init() {
+    await renderRants(); // This will also call updateStats
+})();
 
 // Add after premium logic and before renderRants()
 let themeChangeModal = null;
