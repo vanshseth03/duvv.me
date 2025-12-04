@@ -500,15 +500,16 @@ function getApiToken() {
     return getCookie(API_CONFIG.TOKEN_KEY);
 }
 
-// Generate Random ID - Shortened for cleaner URLs
+// Generate Random ID - Shorter, unique (timestamp-based)
 function generateId() {
-    // 5 character random string (enough for local uniqueness)
+    // Base36 timestamp (8 chars) + 2 char random = ~10 chars total
+    const timestamp = Date.now().toString(36);
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < 5; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    let random = '';
+    for (let i = 0; i < 2; i++) {
+        random += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    return result;
+    return timestamp + random;
 }
 
 // Update Stats (uses cached data from getRants)

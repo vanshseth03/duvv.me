@@ -289,7 +289,13 @@ async function createDuvv(question, theme, responseTypes, isPremium = false) {
     } else {
         // LocalStorage fallback (current implementation)
         const username = getCookie('duvvUsername');
-        const duvvId = Date.now().toString(36) + Math.random().toString(36).substring(2, 8);
+        const timestamp = Date.now().toString(36);
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        let random = '';
+        for (let i = 0; i < 2; i++) {
+            random += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        const duvvId = timestamp + random;
         
         const duvv = {
             id: duvvId,
