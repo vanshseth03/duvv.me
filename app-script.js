@@ -2622,7 +2622,7 @@ function darkenColor(color, percent) {
 async function showCanvasShareDialog() {
     const shareLink = document.getElementById('shareLink').value;
     
-    // Copy link to clipboard IMMEDIATELY
+    // Copy link to clipboard FIRST (before showing dialog)
     try {
         await navigator.clipboard.writeText(shareLink);
     } catch (err) {
@@ -2630,6 +2630,19 @@ async function showCanvasShareDialog() {
         const input = document.getElementById('shareLink');
         input.select();
         document.execCommand('copy');
+    }
+    
+    // Show explanation dialog AFTER copying
+    const proceed = await showConfirm(
+        'The link has been copied to your clipboard!\n\nWhen you share the canvas, you can paste it in your share message.',
+        'How to Share',
+        'Continue',
+        'Cancel'
+    );
+    
+    if (!proceed) {
+        URL.revokeObjectURL(window.currentCanvasUrl);
+        return;
     }
     
     // Check if Web Share API is available
@@ -2644,16 +2657,15 @@ async function showCanvasShareDialog() {
                 });
                 
                 URL.revokeObjectURL(window.currentCanvasUrl);
-                await showAlert('Link copied! Shared successfully! 🎉', 'Done');
+                await showAlert('Shared successfully! 🎉', 'Done');
                 return;
             }
         } catch (err) {
             if (err.name !== 'AbortError') {
                 // Share failed, show download option
             } else {
-                // User cancelled, still copied link
+                // User cancelled
                 URL.revokeObjectURL(window.currentCanvasUrl);
-                await showAlert('Link copied to clipboard! 📋', 'Done');
                 return;
             }
         }
@@ -2661,7 +2673,7 @@ async function showCanvasShareDialog() {
     
     // Fallback: show download option
     const result = await showConfirm(
-        'Link copied! Download the canvas to share it manually:',
+        'Link already copied! Download the canvas to share it manually:',
         'Canvas Ready',
         'Download Canvas',
         'Done'
