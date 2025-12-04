@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duvv.me - your space 💭</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>">
+    <link rel="stylesheet" href="app-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Caveat:wght@400;500;600;700&family=Kablammo&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="header-controls">
+        <button class="premium-btn" id="premiumBtn" title="Get Premium">
+            <span class="premium-icon">👑</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle">
+            <span class="theme-icon">🌙</span>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-small">
+                <h2 class="duvv-logo" style="font-family: 'Kablammo', cursive; font-size: 1.8rem; background: linear-gradient(135deg, #a69cff 0%, #80b7ff 40%, #9bd4ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; text-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 18px rgba(150,180,255,0.25); margin: 0;">
+                    Duvv.me
+                </h2>
+            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <span>🚪 Bye</span>
+            </button>
+        </header>
+
+        <!-- User Profile Card -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <span style="font-size: 36px;">🎭</span>
+                </div>
+                <div class="profile-info">
+                    <h1 class="username" id="displayUsername">@username</h1>
+                    
+                    <!-- Secret Code Display -->
+                    <div class="profile-code-section">
+                        <div class="code-display-wrapper" id="profileCodeWrapper" title="Click to reveal">
+                            <span class="code-hidden-text" id="profileRecoveryCode">••••-••••-••••</span>
+                            <button class="code-toggle-btn" id="toggleProfileCode">👁️</button>
+                        </div>
+                        <button class="code-copy-btn" id="copyProfileCode" title="Copy Secret Code">📋</button>
+                    </div>
+
+                    <p class="profile-stats">
+                        <span id="rantCount">0</span> Duvvs dropped · 
+                        <span id="responseCount">0</span> Spills
+                    </p>
+                </div>
+            </div>
+            
+            <button class="btn-create-rant" id="createRantBtn">
+                <span>✨ Start duvingg</span>
+            </button>
+        </div>
+
+        <!-- Active Rants Section -->
+        <div class="rants-section">
+            <div class="section-header">
+                <h3>🔥 Your active duvvs</h3>
+                <button class="filter-btn" id="filterBtn">
+                    <span>All</span>
+                </button>
+            </div>
+
+            <div class="rants-container" id="rantsContainer">
+                <!-- Rants will be dynamically loaded here -->
+                <div class="empty-state">
+                    <div class="empty-icon">🦗</div>
+                    <h3>It's giving quiet...</h3>
+                    <p>Start duvingg and let the tea spill ☕</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Rant Modal -->
+    <div class="modal hidden" id="createRantModal">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-content modal-large">
+            <button class="modal-close" id="closeModal">✕</button>
+            
+            <!-- Step 1: Choose Question -->
+            <div class="step-container" id="step1">
+                <h2>Choose your duvv question 💭</h2>
+                <p class="modal-subtitle">Pick a vibe or create your own</p>
+                
+                <div class="preset-questions">
+                    <button class="preset-btn" data-question="What's something you've never told anyone? 🤫">
+                        <span class="preset-emoji">🤫</span>
+                        <span class="preset-text">What's something you've never told anyone?</span>
+                    </button>
+                    <button class="preset-btn" data-question="Spill the tea about me fr fr ☕">
+                        <span class="preset-emoji">☕</span>
+                        <span class="preset-text">Spill the tea about me fr fr</span>
+                    </button>
+                    <button class="preset-btn" data-question="Biggest ick about me? No cap 🚩">
+                        <span class="preset-emoji">🚩</span>
+                        <span class="preset-text">Biggest ick about me? No cap</span>
+                    </button>
+                    <button class="preset-btn" data-question="Rate me 1-10 and explain why 💯">
+                        <span class="preset-emoji">💯</span>
+                        <span class="preset-text">Rate me 1-10 and explain why</span>
+                    </button>
+                    <button class="preset-btn" data-question="What's your honest opinion about me? 👀">
+                        <span class="preset-emoji">👀</span>
+                        <span class="preset-text">What's your honest opinion about me?</span>
+                    </button>
+                    <button class="preset-btn" data-question="Confess something you did but never said 😳">
+                        <span class="preset-emoji">😳</span>
+                        <span class="preset-text">Confess something you did but never said</span>
+                    </button>
+                </div>
+                
+                <div class="divider">
+                    <span>or</span>
+                </div>
+                
+                <div class="custom-question">
+                    <textarea 
+                        id="customQuestion" 
+                        placeholder="Type your custom question here... ✨"
+                        maxlength="200"
+                        rows="3"
+                    ></textarea>
+                    <div class="char-count">
+                        <span id="questionCharCount">0</span>/200
+                    </div>
+                </div>
+                
+                <button class="btn btn-gradient" id="nextToThemes">
+                    <span>Next: Choose theme 🎨</span>
+                </button>
+            </div>
+
+            <!-- Step 2: Choose Theme -->
+            <div class="step-container hidden" id="step2">
+                <button class="back-step" id="backToQuestion">← Back</button>
+                <h2>Pick your vibe 🎨</h2>
+                <p class="modal-subtitle">Choose a color pack that matches your energy</p>
+                
+                <div class="theme-categories">
+                    <div class="theme-grid">
+                        <!-- Pack 1: Cyber Pink (KEPT AS IS) -->
+                        <div class="theme-pack" data-theme="cyber-pink" data-text="#ffffff" data-bg="#ff006e" data-outline="#7209b7">
+                            <div class="theme-pack-name">Cyber pink 💗</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #ffffff; border-color: #7209b7;" title="Text"></div>
+                                <div class="color-dot" style="background: #ff006e; border-color: #7209b7;" title="Background"></div>
+                                <div class="color-dot" style="background: #7209b7; border-color: #7209b7;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #ff006e; border: 2px solid #7209b7; color: #ffffff;">
+                                Hot & bold
+                            </div>
+                        </div>
+
+                        <!-- Pack 2: Ocean Breeze (Softer Blue) -->
+                        <div class="theme-pack" data-theme="ocean-breeze" data-text="#003554" data-bg="#caf0f8" data-outline="#00b4d8">
+                            <div class="theme-pack-name">Ocean breeze 🌊</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #003554; border-color: #00b4d8;" title="Text"></div>
+                                <div class="color-dot" style="background: #caf0f8; border-color: #00b4d8;" title="Background"></div>
+                                <div class="color-dot" style="background: #00b4d8; border-color: #00b4d8;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #caf0f8; border: 2px solid #00b4d8; color: #003554;">
+                                Chill vibes
+                            </div>
+                        </div>
+
+                        <!-- Pack 3: Soft Peach (Pastel) -->
+                        <div class="theme-pack" data-theme="soft-peach" data-text="#4a2c2a" data-bg="#ffdac1" data-outline="#ff9aa2">
+                            <div class="theme-pack-name">Soft peach 🍑</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #4a2c2a; border-color: #ff9aa2;" title="Text"></div>
+                                <div class="color-dot" style="background: #ffdac1; border-color: #ff9aa2;" title="Background"></div>
+                                <div class="color-dot" style="background: #ff9aa2; border-color: #ff9aa2;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #ffdac1; border: 2px solid #ff9aa2; color: #4a2c2a;">
+                                Cute aesthetic
+                            </div>
+                        </div>
+
+                        <!-- Pack 4: Mint Tea (Replaces Harsh Green) -->
+                        <div class="theme-pack" data-theme="mint-tea" data-text="#1b4332" data-bg="#d8f3dc" data-outline="#74c69d">
+                            <div class="theme-pack-name">Mint tea 🍵</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #1b4332; border-color: #74c69d;" title="Text"></div>
+                                <div class="color-dot" style="background: #d8f3dc; border-color: #74c69d;" title="Background"></div>
+                                <div class="color-dot" style="background: #74c69d; border-color: #74c69d;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #d8f3dc; border: 2px solid #74c69d; color: #1b4332;">
+                                Fresh & soft
+                            </div>
+                        </div>
+
+                        <!-- Pack 5: Lilac Haze (Softer Purple) -->
+                        <div class="theme-pack" data-theme="lilac-haze" data-text="#240046" data-bg="#e0c3fc" data-outline="#9d4edd">
+                            <div class="theme-pack-name">Lilac haze 💜</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #240046; border-color: #9d4edd;" title="Text"></div>
+                                <div class="color-dot" style="background: #e0c3fc; border-color: #9d4edd;" title="Background"></div>
+                                <div class="color-dot" style="background: #9d4edd; border-color: #9d4edd;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #e0c3fc; border: 2px solid #9d4edd; color: #240046;">
+                                Dreamy mood
+                            </div>
+                        </div>
+
+                        <!-- Pack 6: Dark Mode (KEPT AS IS) -->
+                        <div class="theme-pack" data-theme="dark-mode" data-text="#ff006e" data-bg="#0a0a0f" data-outline="#ff006e">
+                            <div class="theme-pack-name">Dark mode 🌑</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #ff006e; border-color: #ff006e;" title="Text"></div>
+                                <div class="color-dot" style="background: #0a0a0f; border-color: #ff006e;" title="Background"></div>
+                                <div class="color-dot" style="background: #ff006e; border-color: #ff006e;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #0a0a0f; border: 2px solid #ff006e; color: #ff006e;">
+                                Edgy & dark
+                            </div>
+                        </div>
+
+                        <!-- LOCKED THEME: Batman Playground -->
+                        <div class="theme-pack locked-theme" data-theme="batman" data-text="#d4d4d4" data-bg="#000000" data-outline="#ffe600" data-locked="true">
+                            <div class="lock-overlay">
+                                <span class="lock-icon">🔒</span>
+                                <span class="lock-text">Premium</span>
+                            </div>
+                            <div class="theme-pack-name">Batman 🦇</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #d4d4d4; border-color: #ffe600;" title="Text"></div>
+                                <div class="color-dot" style="background: #000000; border-color: #ffe600;" title="Background"></div>
+                                <div class="color-dot" style="background: #ffe600; border-color: #ffe600;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #000000; border: 2px solid #ffe600; color: #d4d4d4;">
+                                I am vengeance
+                            </div>
+                        </div>
+
+                        <!-- LOCKED THEME: Vampire -->
+                        <div class="theme-pack locked-theme" data-theme="vampire" data-text="#ff0000" data-bg="#1a0000" data-outline="#800000" data-locked="true">
+                            <div class="lock-overlay">
+                                <span class="lock-icon">🔒</span>
+                                <span class="lock-text">Premium</span>
+                            </div>
+                            <div class="theme-pack-name">Vampire 🧛</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #ff0000; border-color: #800000;" title="Text"></div>
+                                <div class="color-dot" style="background: #1a0000; border-color: #800000;" title="Background"></div>
+                                <div class="color-dot" style="background: #800000; border-color: #800000;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #1a0000; border: 2px solid #800000; color: #ff0000;">
+                                Blood red
+                            </div>
+                        </div>
+
+                        <!-- LOCKED THEME: Matrix -->
+                        <div class="theme-pack locked-theme" data-theme="matrix" data-text="#00ff00" data-bg="#000000" data-outline="#003300" data-locked="true">
+                            <div class="lock-overlay">
+                                <span class="lock-icon">🔒</span>
+                                <span class="lock-text">Premium</span>
+                            </div>
+                            <div class="theme-pack-name">Matrix 💻</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #00ff00; border-color: #003300;" title="Text"></div>
+                                <div class="color-dot" style="background: #000000; border-color: #003300;" title="Background"></div>
+                                <div class="color-dot" style="background: #003300; border-color: #003300;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #000000; border: 2px solid #003300; color: #00ff00;">
+                                System breach
+                            </div>
+                        </div>
+
+                        <!-- LOCKED THEME: Midnight Gold -->
+                        <div class="theme-pack locked-theme" data-theme="midnight-gold" data-text="#ffd700" data-bg="#111111" data-outline="#ffd700" data-locked="true">
+                            <div class="lock-overlay">
+                                <span class="lock-icon">🔒</span>
+                                <span class="lock-text">Premium</span>
+                            </div>
+                            <div class="theme-pack-name">Midnight Gold 👑</div>
+                            <div class="theme-colors">
+                                <div class="color-dot" style="background: #ffd700; border-color: #ffd700;" title="Text"></div>
+                                <div class="color-dot" style="background: #111111; border-color: #ffd700;" title="Background"></div>
+                                <div class="color-dot" style="background: #ffd700; border-color: #ffd700;" title="Outline"></div>
+                            </div>
+                            <div class="theme-preview-text" style="background: #111111; border: 2px solid #ffd700; color: #ffd700;">
+                                Luxury vibes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-gradient" id="nextToResponseType" disabled>
+                    <span>Next: Response type 📝</span>
+                </button>
+            </div>
+
+            <!-- Step 3: Choose Response Type -->
+            <div class="step-container hidden" id="step3">
+                <button class="back-step" id="backToThemes">← Back</button>
+                <h2>How should they respond? 💬</h2>
+                <p class="modal-subtitle">Choose what type of responses you want</p>
+                <p class="response-type-hint">✨ You can choose multiple options!</p>
+                
+                <div class="response-types">
+                    <label class="response-type-card">
+                        <input type="checkbox" name="responseType" value="text" checked>
+                        <div class="response-card-content">
+                            <span class="response-icon">✍️</span>
+                            <h4>Text response</h4>
+                            <p>Let them type their thoughts</p>
+                        </div>
+                    </label>
+                    
+                    <label class="response-type-card">
+                        <input type="checkbox" name="responseType" value="audio">
+                        <div class="response-card-content">
+                            <span class="response-icon">🎙️</span>
+                            <h4>Voice message</h4>
+                            <p>30 second voice notes</p>
+                        </div>
+                    </label>
+                    
+                    <label class="response-type-card">
+                        <input type="checkbox" name="responseType" value="drawing">
+                        <div class="response-card-content">
+                            <span class="response-icon">🎨</span>
+                            <h4>Draw response</h4>
+                            <p>Let them express with art</p>
+                        </div>
+                    </label>
+                </div>
+                
+                <button class="btn btn-gradient" id="createRantFinal">
+                    <span>Create duvv & get link 🚀</span>
+                </button>
+            </div>
+
+            <!-- Step 4: Success & Share -->
+            <div class="step-container hidden" id="step4">
+                <div class="success-animation">
+                    <div class="success-icon">🎉</div>
+                    <h2>Your duvv is live!</h2>
+                    <p class="modal-subtitle">Share it and watch the responses roll in</p>
+                </div>
+                
+                <div class="rant-preview" id="rantPreview">
+                    <p class="preview-question"></p>
+                </div>
+                
+                <div class="share-section">
+                    <p>📤 Share this duvv:</p>
+                    <div class="share-link">
+                        <input type="text" id="finalShareLink" readonly>
+                        <button class="copy-btn" id="copyFinalLink">🔗 Share</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="doneCreateRant">
+                    <span>Done! View my duvvs 🔥</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rant Detail Modal -->
+    <div class="modal hidden" id="rantDetailModal">
+        <div class="modal-backdrop" id="detailBackdrop"></div>
+        <div class="modal-content modal-large">
+            <button class="modal-close" id="closeDetailModal">✕</button>
+            
+            <div class="rant-detail-header" id="rantDetailHeader">
+                <button class="header-copy-btn" id="headerCopyBtn" title="Share">
+                    🔗
+                </button>
+                <h2 id="detailQuestion"></h2>
+                <p class="rant-meta" id="detailMeta"></p>
+            </div>
+
+            <div class="responses-section">
+                <h3>💬 Responses (<span id="responseCountDetail">0</span>)</h3>
+                <div class="responses-container" id="responsesContainer">
+                    <div class="empty-responses">
+                        <p>No responses yet... be patient bestie 🌟</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="share-section">
+                <p>📤 Share this duvv:</p>
+                <div class="share-link">
+                    <input type="text" id="shareLink" readonly>
+                    <button class="copy-btn" id="shareBtn">🔗 Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Response Detail Modal -->
+    <div class="modal hidden" id="responseDetailModal">
+        <div class="modal-backdrop" id="responseBackdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="closeResponseModal">✕</button>
+            
+            <div class="response-detail-content" id="responseDetailContent">
+                <!-- Content will be dynamically loaded -->
+            </div>
+            
+            <div class="response-actions">
+                <button class="btn btn-gradient" id="shareToStoryBtn">
+                    <span>📸 Share to story</span>
+                </button>
+                <button class="btn btn-secondary" id="downloadResponseBtn">
+                    <span>💾 Download</span>
+                </button>
+                <button class="btn btn-hints" id="getHintsBtn">
+                    <span>🕵️‍♀️ Reveal Hints</span>
+                </button>
+                <button class="btn btn-delete-response" id="deleteResponseBtn">
+                    <span>🗑️ Delete</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Upsell Modal -->
+    <div class="modal hidden" id="premiumModal">
+        <div class="modal-backdrop" id="premiumBackdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="closePremiumModal">✕</button>
+            <div class="premium-content">
+                <div class="premium-header">
+                    <span class="crown-large">👑</span>
+                    <h2>Duvv.me <span class="gold-text">GOLD</span></h2>
+                    <p>Unlock the full experience</p>
+                </div>
+                
+                <div class="premium-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🦇</span>
+                        <div class="feature-text">
+                            <h4>Exclusive Themes</h4>
+                            <p>Unlock Batman, Vampire, Matrix & Gold</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <div class="feature-text">
+                            <h4>Premium Colors</h4>
+                            <p>Unlock special brushes for your responders</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🕵️‍♀️</span>
+                        <div class="feature-text">
+                            <h4>Reveal Hints</h4>
+                            <p>See device, location & OS of responders</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">⚡</span>
+                        <div class="feature-text">
+                            <h4>Priority Support</h4>
+                            <p>Get help faster</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="premium-price">
+                    <span class="price-amount">₹100</span>
+                    <span class="price-period">/ week</span>
+                </div>
+
+                <button class="btn btn-gold" id="buyPremiumBtn">
+                    <span>Upgrade Now via Razorpay</span>
+                </button>
+                <p class="secure-text">🔒 Secure payment via Razorpay</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Active Modal (New) -->
+    <div class="modal hidden" id="premiumActiveModal">
+        <div class="modal-backdrop" id="premiumActiveBackdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="closePremiumActiveModal">✕</button>
+            <div class="premium-content">
+                <div class="premium-header">
+                    <span class="crown-large">👑</span>
+                    <h2>You are <span class="gold-text">GOLD</span></h2>
+                    <p>All premium features are active</p>
+                </div>
+                
+                <div class="premium-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">✅</span>
+                        <div class="feature-text">
+                            <h4>Exclusive Themes Unlocked</h4>
+                            <p>Batman, Vampire, Matrix & Gold themes available</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✅</span>
+                        <div class="feature-text">
+                            <h4>Premium Colors Unlocked</h4>
+                            <p>Gold, Silver & Neon Red brushes available</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✅</span>
+                        <div class="feature-text">
+                            <h4>Hints Revealed</h4>
+                            <p>See device, location & OS of responders</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✅</span>
+                        <div class="feature-text">
+                            <h4>Priority Support</h4>
+                            <p>You are a VIP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary" id="closePremiumActiveBtn">
+                    <span>Awesome! ✨</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hints Modal -->
+    <div class="modal hidden" id="hintsModal">
+        <div class="modal-backdrop" id="hintsBackdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="closeHintsModal">✕</button>
+            <div class="hints-content">
+                <h2>🕵️‍♀️ Responder Hints</h2>
+                <p class="modal-subtitle">Here's what we know about them...</p>
+                
+                <div class="hints-grid" id="hintsGrid">
+                    <!-- Hints injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas for generating story images (hidden) -->
+    <canvas id="storyCanvas" style="display: none;"></canvas>
+
+    <!-- Copy Notification -->
+    <div class="copy-notification" id="copyNotification">
+        → Link copied ←
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p class="footer-tagline">🔒 Completely anonymous</p>
+            <div class="footer-links">
+                <a href="/about">About</a>
+                <a href="/safety">Safety</a>
+                <a href="/contact">Contact</a>
+                <a href="https://instagram.com/duvv.me" target="_blank">Instagram</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+            </div>
+            <p class="footer-copyright">© 2024 duvv.me - No receipts, just vibes ✨</p>
+        </div>
+    </footer>
+
+    <!-- Custom Dialog Overlay -->
+    <div class="custom-dialog-overlay" id="customDialogOverlay">
+        <div class="custom-dialog">
+            <button class="dialog-close" id="dialogClose">✕</button>
+            <div class="dialog-icon" id="dialogIcon"></div>
+            <h3 class="dialog-title" id="dialogTitle"></h3>
+            <p class="dialog-message" id="dialogMessage"></p>
+            <div class="dialog-buttons" id="dialogButtons"></div>
+        </div>
+    </div>
+
+    <!-- Welcome Onboarding Dialog -->
+    <div class="custom-dialog-overlay" id="welcomeDialogOverlay">
+        <div class="welcome-dialog">
+            <button class="dialog-close" id="welcomeClose">✕</button>
+            <div class="welcome-header">
+                <div class="welcome-logo">Duvv.me</div>
+                <h2 class="welcome-title">Welcome to Duvv! ✨</h2>
+                <p class="welcome-subtitle">Your anonymous Q&A platform</p>
+            </div>
+            
+            <div class="welcome-content" id="welcomeContent">
+                <!-- Step 1: Introduction -->
+                <div class="welcome-step" data-step="1">
+                    <div class="feature-grid">
+                        <div class="feature-box">
+                            <div class="feature-icon">💬</div>
+                            <h3>Create Duvvs</h3>
+                            <p>Ask questions and get anonymous responses from anyone</p>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-icon">🔗</div>
+                            <h3>Share Anywhere</h3>
+                            <p>Share your duvvs via link or beautiful canvas images</p>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-icon">✍️</div>
+                            <h3>Multiple Response Types</h3>
+                            <p>Choose text, voice, or drawing responses</p>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-icon">🔒</div>
+                            <h3>100% Anonymous</h3>
+                            <p>Responses are completely anonymous - no tracking</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: How to Use -->
+                <div class="welcome-step hidden" data-step="2">
+                    <div class="guide-steps">
+                        <div class="guide-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Create Your Duvv</h3>
+                                <p>Click "Create Duvv" button, write your question, and choose a theme</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Select Response Types</h3>
+                                <p>Choose how people can respond: typing, recording voice, or drawing</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Share Your Link</h3>
+                                <p>Copy the link or generate a beautiful canvas image to share on social media</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>View Responses</h3>
+                                <p>Check your dashboard to see all responses - share audio replies to your story!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Privacy & Safety -->
+                <div class="welcome-step hidden" data-step="3">
+                    <div class="privacy-info">
+                        <div class="privacy-icon">🔒</div>
+                        <h3>Your Privacy Matters</h3>
+                        <div class="privacy-points">
+                            <div class="privacy-point">
+                                <span class="point-icon">✔️</span>
+                                <p><strong>Anonymous Responses:</strong> We don't collect IP addresses or device info from responders</p>
+                            </div>
+                            <div class="privacy-point">
+                                <span class="point-icon">✔️</span>
+                                <p><strong>No Personal Data:</strong> Only your username is stored - no email, phone, or real name required</p>
+                            </div>
+                            <div class="privacy-point">
+                                <span class="point-icon">✔️</span>
+                                <p><strong>Your Control:</strong> Delete any duvv or response anytime - your content, your rules</p>
+                            </div>
+                            <div class="privacy-point">
+                                <span class="point-icon">✔️</span>
+                                <p><strong>Secure:</strong> All data is encrypted and stored securely</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="welcome-footer">
+                <div class="step-indicators">
+                    <span class="step-dot active" data-step="1"></span>
+                    <span class="step-dot" data-step="2"></span>
+                    <span class="step-dot" data-step="3"></span>
+                </div>
+                <div class="welcome-buttons">
+                    <button class="dialog-btn dialog-btn-secondary" id="welcomeSkip">Skip</button>
+                    <button class="dialog-btn dialog-btn-primary" id="welcomeNext">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for Question Sharing -->
+    <canvas id="questionShareCanvas" style="display: none;"></canvas>
+
+    <script src="api-config.js"></script>
+    <script src="app-script.js"></script>
+</body>
+</html>

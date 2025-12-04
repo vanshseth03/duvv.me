@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>duvv.me - anonymous q&a 🕊️</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Caveat:wght@400;500;600;700&family=Kablammo&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <!-- Floating Doves -->
+        <div class="floating-dove dove-1">🕊️</div>
+        <div class="floating-dove dove-2">🕊️</div>
+        <div class="floating-dove dove-3">🕊️</div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle">
+        <span class="theme-icon">🌙</span>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="landing-nav">
+        <div class="nav-logo" style="display: flex; align-items: center; gap: 8px;">
+            <span class="logo-text" style="font-family: 'Kablammo', cursive; font-size: 2rem; font-weight: 400; letter-spacing: -0.5px; background: linear-gradient(135deg, #a69cff 0%, #80b7ff 40%, #9bd4ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 18px rgba(150,180,255,0.25);">Duvv.me</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="landing-main">
+        
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Send & receive <br>
+                    <span class="highlight-text">anonymous</span> messages
+                </h1>
+                <p class="hero-subtitle">
+                    Get honest feedback, confessions, and tea from your friends. 
+                    Now with <strong>Voice Notes</strong> 🎙️ and <strong>Drawings</strong> 🎨.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-num">100%</span>
+                        <span class="stat-label">Private</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">No</span>
+                        <span class="stat-label">Receipts</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">Just</span>
+                        <span class="stat-label">Vibes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auth Card Container (Existing Logic) -->
+            <div class="hero-auth-container">
+                <div class="container">
+                    <!-- Welcome Screen -->
+                    <div class="auth-card" id="welcomeScreen">
+                        <div class="logo">
+                            <h1 class="duvv-logo" style="font-family: 'Kablammo', cursive; font-size: 3.5rem; background: linear-gradient(135deg, #a69cff 0%, #80b7ff 40%, #9bd4ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; text-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 18px rgba(150,180,255,0.25); margin: 0 0 0.5rem 0;">
+                                Duvv.me
+                            </h1>
+                            <p class="tagline">No more texting, it's duvingg anonymously 🤫</p>
+                        </div>
+                        
+                        <div class="welcome-buttons">
+                            <button class="btn btn-primary" id="createNewBtn">
+                                <span>🚀 Start duvingg</span>
+                            </button>
+                            <button class="btn btn-secondary" id="recoverBtn">
+                                <span>🔑 I have a code</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Create Account Flow -->
+                    <div class="auth-card hidden" id="createAccountScreen">
+                        <button class="back-btn" id="backFromCreate">← Back</button>
+                        <h2>Claim your handle 🎭</h2>
+                        <p class="subtitle">Main character energy only ✨</p>
+                        
+                        <form id="createForm">
+                            <div class="input-group">
+                                <input type="text" id="usernameInput" placeholder="@username" maxlength="20" required>
+                                <span class="input-hint">Letters, numbers, underscore only</span>
+                            </div>
+                            <button type="submit" class="btn btn-gradient">
+                                <span>Let's go! 🚀</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Recovery Code Display -->
+                    <div class="auth-card hidden" id="codeDisplayScreen">
+                        <div class="success-icon">🎉</div>
+                        <h2>You're in!</h2>
+                        <p class="subtitle">Screenshot this code fr fr 📸</p>
+                        
+                        <div class="code-display">
+                            <code id="recoveryCode"></code>
+                            <button class="copy-btn" id="copyCodeBtn">📋 Copy</button>
+                        </div>
+                        
+                        <div class="warning-box">
+                            <p>⚠️ Bestie, save this code! It's the only way to get back in.</p>
+                        </div>
+                        
+                        <button class="btn btn-primary" id="continueToApp">
+                            <span>Continue to duvv 🔥</span>
+                        </button>
+                    </div>
+
+                    <!-- Recover Account Flow -->
+                    <div class="auth-card hidden" id="recoverScreen">
+                        <button class="back-btn" id="backFromRecover">← Back</button>
+                        <h2>Welcome back! 👋</h2>
+                        <p class="subtitle">Enter your secret code</p>
+                        
+                        <form id="recoverForm">
+                            <div class="input-group">
+                                <input type="text" id="recoveryInput" placeholder="Your-recovery-code" maxlength="16" required>
+                                <span class="input-hint">Paste your alphanumeric code</span>
+                            </div>
+                            <button type="submit" class="btn btn-gradient">
+                                <span>Get me in 🔓</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <h2 class="section-title">How it works ✨</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-icon">🔗</div>
+                    <h3>1. Create your link</h3>
+                    <p>Get your unique duvv.me link and customize your vibe.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">📸</div>
+                    <h3>2. Share on Story</h3>
+                    <p>Post it on Instagram, Snapchat, or TikTok.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">💌</div>
+                    <h3>3. Get Responses</h3>
+                    <p>Receive anonymous texts, voice notes, and drawings.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Showcase -->
+        <section class="features-section">
+            <div class="feature-row">
+                <div class="feature-text">
+                    <h3>🎙️ Voice Notes with Filters</h3>
+                    <p>Hear their voice, but not really. Our voice changers keep everyone incognito while spilling the tea.</p>
+                </div>
+                <div class="feature-visual">
+                    <div class="visual-card">
+                        <span>🎤</span> ➔ <span>🤖</span>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-row reverse">
+                <div class="feature-text">
+                    <h3>🎨 Express with Drawings</h3>
+                    <p>Sometimes words aren't enough. Let them draw their feelings (or memes).</p>
+                </div>
+                <div class="feature-visual">
+                    <div class="visual-card">
+                        <span>🖌️</span> ➔ <span>🖼️</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quotes / Vibes -->
+        <section class="quotes-section">
+            <h2 class="section-title">The Vibes 💅</h2>
+            <div class="quotes-scroll">
+                <div class="quote-card">"Finally an app that lets me send voice notes anonymously!"</div>
+                <div class="quote-card">"The drawing feature is so chaotic I love it"</div>
+                <div class="quote-card">"Best way to get honest opinions fr"</div>
+                <div class="quote-card">"Duvv is literally my daily entertainment"</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p class="footer-tagline">🔒 Completely anonymous</p>
+            <div class="footer-links">
+                <a href="/about">About</a>
+                <a href="/safety">Safety</a>
+                <a href="/contact">Contact</a>
+                <a href="https://instagram.com/duvv.me" target="_blank">Instagram</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+            </div>
+            <p class="footer-copyright">© 2024 duvv.me - No receipts, just vibes ✨</p>
+        </div>
+    </footer>
+
+    <!-- Custom Dialog Overlay -->
+    <div class="custom-dialog-overlay" id="customDialogOverlay">
+        <div class="custom-dialog">
+            <div class="dialog-icon" id="dialogIcon"></div>
+            <h3 class="dialog-title" id="dialogTitle"></h3>
+            <p class="dialog-message" id="dialogMessage"></p>
+            <div class="dialog-buttons" id="dialogButtons"></div>
+        </div>
+    </div>
+
+    <script src="api-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

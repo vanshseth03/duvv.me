@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respond - duvv.me</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>">
+    <link rel="stylesheet" href="respond-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Caveat:wght@400;500;600;700&family=Kablammo&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle">
+        <span class="theme-icon">🌙</span>
+    </button>
+
+    <div class="respond-container">
+        <!-- Header -->
+        <header class="respond-header">
+            <div class="brand-logo" style="display: flex; align-items: center; gap: 10px;">
+                <span class="logo-text" style="font-family: 'Kablammo', cursive; font-size: 2.2rem; font-weight: 400; letter-spacing: -0.5px; background: linear-gradient(135deg, #a69cff 0%, #80b7ff 40%, #9bd4ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 18px rgba(150,180,255,0.25);">Duvv.me</span>
+            </div>
+        </header>
+
+        <!-- Question Card -->
+        <div class="question-card" id="questionCard">
+            <h1 class="question-text" id="questionText">Loading question...</h1>
+            <p class="question-meta" id="responseTypesAllowed">Loading options...</p>
+        </div>
+
+        <!-- Response Form Container -->
+        <div id="responseForm">
+            <!-- Response Type Selector -->
+            <div class="response-type-selector">
+                <button class="type-tab active" id="textTab" data-type="text">
+                    <span class="tab-icon">✍️</span>
+                    <span class="tab-label">Text</span>
+                </button>
+                <button class="type-tab" id="audioTab" data-type="audio">
+                    <span class="tab-icon">🎙️</span>
+                    <span class="tab-label">Voice</span>
+                </button>
+                <button class="type-tab" id="drawingTab" data-type="drawing">
+                    <span class="tab-icon">🎨</span>
+                    <span class="tab-label">Draw</span>
+                </button>
+            </div>
+
+            <!-- Text Response Section -->
+            <div class="response-section active" id="textSection">
+                <div class="section-title">
+                    <h3>Write something anonymous</h3>
+                    <p>Be honest, they won't know it's you</p>
+                </div>
+                
+                <div class="text-input-container">
+                    <textarea id="textInput" placeholder="Type your anonymous response here... 🤫" maxlength="500"></textarea>
+                    <div class="char-counter"><span id="textCharCount">0</span>/500</div>
+                </div>
+                
+                <button class="btn-submit" id="submitTextBtn">Send it 🚀</button>
+            </div>
+
+            <!-- Audio Response Section -->
+            <div class="response-section" id="audioSection">
+                <div class="section-title">
+                    <h3>Record a voice message</h3>
+                    <p>We'll disguise your voice so you stay incognito</p>
+                </div>
+
+                <div class="audio-recorder">
+                    <div class="record-button-container">
+                        <button class="record-btn" id="recordBtn">
+                            <span class="mic-icon">🎤</span>
+                        </button>
+                    </div>
+                    <div class="record-status" id="recordStatus">Tap to start recording</div>
+                    <div class="record-timer" id="recordTimer">0:00</div>
+                    
+                    <div class="audio-visualizer" id="audioVisualizer">
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                    </div>
+                </div>
+
+                <div class="audio-player hidden" id="audioPlayer">
+                    <div class="player-controls">
+                        <button class="play-btn" id="playBtn">▶</button>
+                        <div class="audio-progress">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="audio-time" id="audioTime">0:00</div>
+                    </div>
+                    <div class="audio-actions">
+                        <button class="btn-secondary" id="rerecordBtn">↺ Re-record</button>
+                    </div>
+                </div>
+
+                <div class="audio-filters hidden" id="audioFilters">
+                    <div class="filters-title">
+                        <h4>Choose a voice filter</h4>
+                        <p>Disguise your voice completely</p>
+                    </div>
+                    <div class="filters-grid">
+                        <button class="filter-btn active" data-filter="none">
+                            <span class="filter-icon">🎤</span>
+                            <span class="filter-name">Normal</span>
+                        </button>
+                        <button class="filter-btn" data-filter="alien">
+                            <span class="filter-icon">👽</span>
+                            <span class="filter-name">Alien</span>
+                        </button>
+                        <button class="filter-btn" data-filter="chipmunk">
+                            <span class="filter-icon">🐿️</span>
+                            <span class="filter-name">Chipmunk</span>
+                        </button>
+                        <button class="filter-btn" data-filter="deepmask">
+                            <span class="filter-icon">🎭</span>
+                            <span class="filter-name">Deep Mask</span>
+                        </button>
+                        <button class="filter-btn" data-filter="ghostdrift">
+                            <span class="filter-icon">👻</span>
+                            <span class="filter-name">Ghost</span>
+                        </button>
+                        <button class="filter-btn" data-filter="dove">
+                            <span class="filter-icon">🕊️</span>
+                            <span class="filter-name">Dove</span>
+                        </button>
+                        <button class="filter-btn" data-filter="meow">
+                            <span class="filter-icon">🐱</span>
+                            <span class="filter-name">Meow</span>
+                        </button>
+                        <button class="filter-btn" data-filter="clown">
+                            <span class="filter-icon">🤡</span>
+                            <span class="filter-name">Clown</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn-submit hidden" id="submitAudioBtn">Send voice note 🚀</button>
+                <audio id="audioElement" style="display: none;"></audio>
+            </div>
+
+            <!-- Drawing Response Section -->
+            <div class="response-section" id="drawingSection">
+                <div class="section-title">
+                    <h3>Draw something</h3>
+                    <p>Express yourself with art</p>
+                </div>
+
+                <!-- Canvas moved above tools -->
+                <div class="canvas-container">
+                    <canvas id="drawingCanvas" width="500" height="500"></canvas>
+                </div>
+
+                <div class="drawing-tools">
+                    <div class="tool-group">
+                        <label>Brush Size <span id="brushSizeValue">5</span></label>
+                        <input type="range" id="brushSize" min="2" max="50" value="5">
+                    </div>
+                    
+                    <div class="tool-group">
+                        <label>Brush Color</label>
+                        <div class="color-palette">
+                            <button class="color-btn active" style="background: #000000;" data-color="#000000"></button>
+                            <button class="color-btn" style="background: #ffffff; border: 1px solid #ddd;" data-color="#ffffff"></button>
+                            <button class="color-btn" style="background: #ff006e;" data-color="#ff006e"></button>
+                            <button class="color-btn" style="background: #7209b7;" data-color="#7209b7"></button>
+                            <button class="color-btn" style="background: #00d9ff;" data-color="#00d9ff"></button>
+                            <button class="color-btn" style="background: #ff6b35;" data-color="#ff6b35"></button>
+                            <button class="color-btn" style="background: #06ffa5;" data-color="#06ffa5"></button>
+                            <button class="color-btn" style="background: #f72585;" data-color="#f72585"></button>
+                            <button class="color-btn" style="background: #4361ee;" data-color="#4361ee"></button>
+                            
+                            <!-- Premium Colors with Crown (5 special colors) -->
+                            <button class="color-btn premium-color hidden" style="background: linear-gradient(135deg, #ffd700, #ffed4e); box-shadow: 0 0 8px #ffd700; position: relative;" data-color="#ffd700" title="Royal Gold">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                            <button class="color-btn premium-color hidden" style="background: linear-gradient(135deg, #c0c0c0, #e8e8e8); box-shadow: 0 0 8px #c0c0c0; position: relative;" data-color="#c0c0c0" title="Chrome Silver">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                            <button class="color-btn premium-color hidden" style="background: linear-gradient(135deg, #ff1744, #ff6090); box-shadow: 0 0 8px #ff1744; position: relative;" data-color="#ff1744" title="Neon Crimson">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                            <button class="color-btn premium-color hidden" style="background: linear-gradient(135deg, #00e5ff, #1de9b6); box-shadow: 0 0 8px #00e5ff; position: relative;" data-color="#00e5ff" title="Cyan Glow">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                            <button class="color-btn premium-color hidden" style="background: linear-gradient(135deg, #d500f9, #ff4081); box-shadow: 0 0 8px #d500f9; position: relative;" data-color="#d500f9" title="Magenta Burst">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tool-group">
+                        <label>Background Color</label>
+                        <div class="color-palette" id="bgColorPalette">
+                            <button class="bg-color-btn active" style="background: #ffffff; border: 1px solid #ddd;" data-bgcolor="#ffffff"></button>
+                            <button class="bg-color-btn" style="background: #000000;" data-bgcolor="#000000"></button>
+                            <button class="bg-color-btn" style="background: #fff0f3;" data-bgcolor="#fff0f3"></button>
+                            <button class="bg-color-btn" style="background: #1a1a2e;" data-bgcolor="#1a1a2e"></button>
+                            <button class="bg-color-btn" style="background: #ffe5ec;" data-bgcolor="#ffe5ec"></button>
+                            <button class="bg-color-btn" style="background: #e0f4ff;" data-bgcolor="#e0f4ff"></button>
+                            <button class="bg-color-btn" style="background: #fff9e6;" data-bgcolor="#fff9e6"></button>
+                            <button class="bg-color-btn" style="background: #e8f5e9;" data-bgcolor="#e8f5e9"></button>
+                            <button class="bg-color-btn" style="background: #f3e5f5;" data-bgcolor="#f3e5f5"></button>
+                            <button class="bg-color-btn" style="background: #fce4ec;" data-bgcolor="#fce4ec"></button>
+                            
+                            <!-- Premium Backgrounds with Crown (5 special backgrounds) -->
+                            <button class="bg-color-btn premium-color hidden" style="background: linear-gradient(135deg, #0a0a0a, #1a1a1a); border: 2px solid #ffd700; position: relative;" data-bgcolor="#0f0f0f" title="Midnight Black">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                            <button class="bg-color-btn premium-color hidden" style="background: linear-gradient(135deg, #1a0000, #330000); border: 2px solid #ff0000; position: relative;" data-bgcolor="#200000" title="Blood Red">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                            <button class="bg-color-btn premium-color hidden" style="background: linear-gradient(135deg, #001a00, #003300); border: 2px solid #00ff00; position: relative;" data-bgcolor="#001f00" title="Matrix Green">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                            <button class="bg-color-btn premium-color hidden" style="background: linear-gradient(135deg, #000033, #001a4d); border: 2px solid #0066ff; position: relative;" data-bgcolor="#000a33" title="Deep Ocean">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                            <button class="bg-color-btn premium-color hidden" style="background: linear-gradient(135deg, #2d001a, #4d0033); border: 2px solid #ff00ff; position: relative;" data-bgcolor="#330020" title="Royal Purple">
+                                <span class="premium-crown">👑</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tool-group">
+                        <label>Mode</label>
+                        <div class="drawing-modes">
+                            <button class="mode-btn active" data-mode="normal">
+                                <span class="mode-icon">✏️</span>
+                                <span class="mode-name">Normal</span>
+                            </button>
+                            <button class="mode-btn" data-mode="neon">
+                                <span class="mode-icon">✨</span>
+                                <span class="mode-name">Neon</span>
+                            </button>
+                            <button class="mode-btn" data-mode="heart">
+                                <span class="mode-icon">💖</span>
+                                <span class="mode-name">Hearts</span>
+                            </button>
+                            <button class="mode-btn" data-mode="spray">
+                                <span class="mode-icon">💨</span>
+                                <span class="mode-name">Spray</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tool-group" style="display: flex; justify-content: space-between; margin-top: 16px;">
+                        <button class="tool-btn" id="eraserBtn">🧽 Eraser</button>
+                        <button class="tool-btn" id="undoBtn">↩️ Undo</button>
+                        <button class="tool-btn" id="clearCanvasBtn">🗑️ Clear</button>
+                    </div>
+                </div>
+
+                <button class="btn-submit" id="submitDrawingBtn">Send masterpiece 🎨</button>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message hidden" id="successMessage">
+            <div class="success-icon">🧾</div>
+            <h2>Sent! No receipts</h2>
+            <p>Your secret is safe with us 🤫</p>
+            <div class="success-actions">
+                <button class="btn btn-secondary" id="sendAnotherBtn">Send another 📩</button>
+                <button class="btn btn-primary" id="createOwnBtn">Start duvingg yourself ✨</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Microphone Permission Modal -->
+    <div class="permission-modal hidden" id="micPermissionModal">
+        <div class="permission-backdrop"></div>
+        <div class="permission-content">
+            <div class="permission-icon">🎙️</div>
+            <h3>Allow Microphone Access</h3>
+            <p>To record voice messages, we need access to your microphone. We don't save anything until you hit send!</p>
+            
+            <div class="permission-info">
+                <div class="info-item">
+                    <span class="info-emoji">🔒</span>
+                    <span>Secure & private connection</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-emoji">🎭</span>
+                    <span>Voice filters applied automatically</span>
+                </div>
+            </div>
+            
+            <div class="permission-actions">
+                <button class="btn-permission-allow" id="allowMicBtn">Allow Microphone</button>
+                <button class="btn-permission-deny" id="denyMicBtn">Don't Allow</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p class="footer-tagline">🔒 Completely anonymous</p>
+            <div class="footer-links">
+                <a href="/about">About</a>
+                <a href="/safety">Safety</a>
+                <a href="/contact">Contact</a>
+                <a href="https://instagram.com/duvv.me" target="_blank">Instagram</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+            </div>
+            <p class="footer-copyright">© 2024 duvv.me - No receipts, just vibes ✨</p>
+        </div>
+    </footer>
+
+    <!-- Custom Dialog Overlay -->
+    <div class="custom-dialog-overlay" id="customDialogOverlay">
+        <div class="custom-dialog">
+            <div class="dialog-icon" id="dialogIcon"></div>
+            <h3 class="dialog-title" id="dialogTitle"></h3>
+            <p class="dialog-message" id="dialogMessage"></p>
+            <div class="dialog-buttons" id="dialogButtons"></div>
+        </div>
+    </div>
+
+    <script src="api-config.js"></script>
+    <script src="respond-script.js"></script>
+</body>
+</html>

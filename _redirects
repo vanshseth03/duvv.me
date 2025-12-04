@@ -1,0 +1,16 @@
+# Netlify / Render Static Site Redirects
+# This file handles clean URL routing for platforms that use _redirects
+
+# Static pages
+/about           /about.html          200
+/safety          /safety.html         200
+/contact         /contact.html        200
+/privacy         /privacy.html        200
+/terms           /terms.html          200
+
+# Dynamic routes
+/:username/:id   /respond.html        200
+/:username       /app.html            200
+
+# Fallback to index
+/*               /index.html          200

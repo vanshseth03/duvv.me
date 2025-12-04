@@ -1,0 +1,68 @@
+/* Brand Logo Styles */
+.brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Outfit', sans-serif;
+    text-decoration: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.brand-logo .dove-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 0 12px rgba(255, 0, 110, 0.6));
+    animation: floatDoveLogo 4s ease-in-out infinite;
+    display: inline-block;
+}
+
+.brand-logo .text-wrapper {
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+}
+
+.brand-logo .brand-name {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff006e 0%, #ff477e 50%, #00d9ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+}
+
+.brand-logo .brand-tld {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--dark-text);
+    opacity: 0.9;
+    letter-spacing: -0.5px;
+}
+
+/* Large Variant for Hero Sections */
+.brand-logo.large {
+    gap: 15px;
+    flex-direction: column;
+}
+
+.brand-logo.large .dove-icon {
+    font-size: 4rem;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 110, 0.4));
+}
+
+.brand-logo.large .brand-name,
+.brand-logo.large .brand-tld {
+    font-size: 3.5rem;
+}
+
+/* Animation */
+@keyframes floatDoveLogo {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(5deg); }
+}
+
+/* Bright Mode Support */
+body.bright-mode .brand-logo .brand-tld {
+    color: var(--bright-text);
+}

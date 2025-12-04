@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - duvv.me 📬</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Caveat:wght@400;500;600;700&family=Kablammo&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle">
+        <span class="theme-icon">🌙</span>
+    </button>
+
+    <nav class="landing-nav">
+        <a href="index.html" style="text-decoration: none;">
+            <div class="nav-logo" style="display: flex; align-items: center; gap: 8px;">
+                <span class="logo-text" style="font-family: 'Kablammo', cursive; font-size: 2rem; font-weight: 400; letter-spacing: -0.5px; background: linear-gradient(135deg, #a69cff 0%, #80b7ff 40%, #9bd4ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 18px rgba(150,180,255,0.25);">Duvv.me</span>
+            </div>
+        </a>
+    </nav>
+
+    <main class="landing-main">
+        <section class="hero-section" style="padding-top: 120px;">
+            <div class="container">
+                <div class="auth-card" style="max-width: 600px;">
+                    <h2>Get in touch 📬</h2>
+                    <p class="subtitle">Got questions? Tea to spill? Bug reports?</p>
+                    
+                    <form id="contactForm">
+                        <div class="input-group">
+                            <input type="text" id="contactName" placeholder="Your Name" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="contactEmail" placeholder="Your Email" required style="width: 100%; padding: 18px 24px; border-radius: 18px; border: 2px solid var(--dark-border); background: rgba(0, 0, 0, 0.2); color: var(--dark-text); font-size: 16px; font-family: 'Outfit', sans-serif; outline: none;">
+                        </div>
+                        <div class="input-group">
+                            <textarea id="contactMessage" placeholder="What's on your mind?" rows="5" required style="width: 100%; padding: 18px 24px; border-radius: 18px; border: 2px solid var(--dark-border); background: rgba(0, 0, 0, 0.2); color: var(--dark-text); font-size: 16px; font-family: 'Outfit', sans-serif; outline: none; resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-gradient">
+                            <span>Send Message 🚀</span>
+                        </button>
+                    </form>
+                    
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--dark-border);">
+                        <p style="font-size: 0.9rem; color: var(--dark-text-secondary);">Or email us directly at <a href="mailto:hello@duvv.me" style="color: var(--cyber-pink);">hello@duvv.me</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p class="footer-tagline">🔒 Completely anonymous</p>
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="safety.html">Safety</a>
+                <a href="contact.html" style="color: var(--cyber-pink);">Contact</a>
+                <a href="https://instagram.com/duvv.me" target="_blank">Instagram</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+            </div>
+            <p class="footer-copyright">© 2024 duvv.me - No receipts, just vibes ✨</p>
+        </div>
+    </footer>
+
+    <!-- Custom Dialog Overlay -->
+    <div class="custom-dialog-overlay" id="customDialogOverlay">
+        <div class="custom-dialog">
+            <div class="dialog-icon" id="dialogIcon"></div>
+            <h3 class="dialog-title" id="dialogTitle"></h3>
+            <p class="dialog-message" id="dialogMessage"></p>
+            <div class="dialog-buttons" id="dialogButtons"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Contact form handler
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await showAlert(
+                    'This is a demo form. In production, your message would be sent! 📨',
+                    'Message Sent! ✅',
+                    '🎉'
+                );
+                contactForm.reset();
+            });
+        }
+    </script>
+</body>
+</html>
