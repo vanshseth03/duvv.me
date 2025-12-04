@@ -29,8 +29,8 @@ const API_CONFIG = {
     BASE_URL: (() => {
         // Check if we're in production (deployed)
         if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-            // Production: use Render backend
-            return 'https://duvv-me-api.onrender.com';
+            // Production: use custom domain
+            return 'https://api.duvv.me';
         }
         // Local development
         return 'http://localhost:3000';
@@ -39,7 +39,7 @@ const API_CONFIG = {
     // Full API URL with /api path
     API_BASE_URL: (() => {
         const base = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
-            ? 'https://duvv-me-api.onrender.com'
+            ? 'https://api.duvv.me'
             : 'http://localhost:3000';
         return `${base}/api`;
     })(),

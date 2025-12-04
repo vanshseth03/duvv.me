@@ -1,0 +1,94 @@
+# Environment variables
+.env
+.env.local
+.env.production
+backend/.env
+
+# SSL Certificates (local only)
+*.pem
+*.key
+*.crt
+
+# Node modules
+node_modules/
+backend/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test files
+test/
+*.test.js
+
+# Build outputs
+dist/
+build/
+
+# Data files (if any)
+backend/data/*.json
+!backend/data/.gitkeep
+
+# Backup files
+*.backup
+*.bak
+
+# Documentation (too many, keep only essential)
+API_DOCUMENTATION.md
+APPWRITE_MIGRATION_GUIDE.md
+APPWRITE_SETUP_GUIDE.md
+ARCHITECTURE.md
+BACKEND_FIXES.md
+BACKEND_REORGANIZATION.md
+CHANGELOG.md
+COMPLETION_SUMMARY.md
+CUSTOM_DIALOGS_IMPLEMENTATION.md
+ECOSYSTEM_EXPLAINED.md
+FILE_STORAGE_QUICKSTART.md
+PRODUCTION_READY.md
+PROJECT_DOCUMENTATION.md
+QUICKSTART.md
+QUICK_START.md
+README-HTTPS.md
+README_APPWRITE.md
+SETUP_SUMMARY.md
+START_TESTING.md
+STORAGE_UPGRADE_SUMMARY.md
+TESTING_GUIDE.md
+VISUAL_DIAGRAMS.md
+
+# Extra CSS
+styles copy.css
+
+# PowerShell scripts (local only)
+*.ps1
+!deploy-to-github.ps1
+
+# Backend test/setup files
+backend/api-appwrite-temp.js
+backend/api-appwrite.js
+backend/api-file-storage.js
+backend/api.js.backup
+backend/check-*.js
+backend/fix-urls.js
+backend/list-collections.js
+backend/setup-*.js
+backend/verify-*.js
+backend/test-*.ps1
+backend/FINAL_STATUS.md
+backend/STATUS.md
+backend/.env.example.backup
+
+# Uploads folder
+backend/uploads/
