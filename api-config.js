@@ -26,14 +26,22 @@ const API_CONFIG = {
     USE_API: true,
     
     // API Base URL - auto-detects environment
-    API_BASE_URL: (() => {
+    BASE_URL: (() => {
         // Check if we're in production (deployed)
         if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
             // Production: use Render backend
-            return 'https://duvv-me-api.onrender.com/api';
+            return 'https://duvv-me-api.onrender.com';
         }
         // Local development
-        return 'http://localhost:3000/api';
+        return 'http://localhost:3000';
+    })(),
+    
+    // Full API URL with /api path
+    API_BASE_URL: (() => {
+        const base = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+            ? 'https://duvv-me-api.onrender.com'
+            : 'http://localhost:3000';
+        return `${base}/api`;
     })(),
     
     // Token storage key
