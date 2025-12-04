@@ -211,7 +211,7 @@ const themeToggle = document.getElementById('themeToggle');
 const themeIcon = themeToggle.querySelector('.theme-icon');
 
 // PREMIUM LOGIC
-let isPremium = false; // Will be fetched from API
+let isPremium = true; // Temporarily set to true for everyone - Razorpay integration hidden
 
 const premiumBtn = document.getElementById('premiumBtn');
 const premiumModal = document.getElementById('premiumModal');
