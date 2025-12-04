@@ -49,8 +49,15 @@ const API_CONFIG = {
 };
 
 // ========================================================================
-// HELPER FUNCTIONS
+// REQUEST DEDUPLICATION (Prevent duplicate API calls)
 // ========================================================================
+
+const requestCache = new Map(); // Cache for in-flight requests
+const REQUEST_DEDUP_TIME = 500; // 500ms deduplication window
+
+function getCacheKey(endpoint, options = {}) {
+    return `${endpoint}_${options.method || 'GET'}_${JSON.stringify(options.body || '')}`;
+}
 
 /**
  * Get stored JWT token
@@ -81,9 +88,15 @@ function removeApiToken() {
 }
 
 /**
- * Make API request with error handling
+ * Make API request with error handling and deduplication
  */
 async function apiRequest(endpoint, options = {}) {
+    // Check for duplicate in-flight request
+    const cacheKey = getCacheKey(endpoint, options);
+    if (requestCache.has(cacheKey)) {
+        return requestCache.get(cacheKey);
+    }
+    
     const url = `${API_CONFIG.API_BASE_URL}${endpoint}`;
     
     const defaultHeaders = {
@@ -105,16 +118,25 @@ async function apiRequest(endpoint, options = {}) {
     };
     
     try {
-        const response = await fetch(url, config);
-        const data = await response.json();
+        const promise = fetch(url, config)
+            .then(response => response.json())
+            .then(data => {
+                if (!data) throw new Error('Empty response');
+                return data;
+            });
         
-        if (!response.ok) {
-            throw new Error(data.error || `HTTP ${response.status}`);
-        }
+        // Cache the promise for deduplication
+        requestCache.set(cacheKey, promise);
         
+        // Auto-clear cache after dedup window
+        setTimeout(() => {
+            requestCache.delete(cacheKey);
+        }, REQUEST_DEDUP_TIME);
+        
+        const data = await promise;
         return data;
     } catch (error) {
-
+        requestCache.delete(cacheKey);
         throw error;
     }
 }

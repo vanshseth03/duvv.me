@@ -448,6 +448,7 @@ fetchUserPremiumStatus();
 let cachedDuvvs = null;
 let cacheTimestamp = 0;
 const CACHE_DURATION = 5000; // 5 seconds cache
+let fetchingRants = false; // Prevent concurrent fetches
 
 // Rants Data Management
 async function getRants(forceRefresh = false) {
@@ -456,11 +457,17 @@ async function getRants(forceRefresh = false) {
         return cachedDuvvs;
     }
     
+    // Prevent concurrent fetches of the same data
+    if (fetchingRants && !forceRefresh) {
+        return cachedDuvvs || [];
+    }
+    
     if (typeof API_CONFIG !== 'undefined' && API_CONFIG.USE_API) {
+        fetchingRants = true;
         try {
             const token = getApiToken();
             if (!token) {
-
+                fetchingRants = false;
                 return [];
             }
             const response = await fetch(`${API_CONFIG.API_BASE_URL}/duvvs`, {
@@ -481,10 +488,13 @@ async function getRants(forceRefresh = false) {
                     deactivated: false
                 }));
                 cacheTimestamp = Date.now();
+                fetchingRants = false;
                 return cachedDuvvs;
             }
+            fetchingRants = false;
             return [];
         } catch (error) {
+            fetchingRants = false;
             return [];
         }
     }
