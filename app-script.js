@@ -436,18 +436,20 @@ async function fetchUserPremiumStatus() {
             
             if (response.ok) {
                 const data = await response.json();
-                isPremium = data.user.isPremium || false;
+                // Keep premium = true for everyone (temporarily)
+                // isPremium = data.user.isPremium || false;
+                isPremium = true;
                 updatePremiumUI();
             }
         } catch (error) {
 
-            // Default to non-premium on failure
-            isPremium = false;
+            // Keep premium = true even on error (temporarily)
+            isPremium = true;
             updatePremiumUI();
         }
     } else {
-        // API is required; default non-premium
-        isPremium = false;
+        // API is required; keep premium = true (temporarily)
+        isPremium = true;
         updatePremiumUI();
     }
 }
