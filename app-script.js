@@ -275,6 +275,17 @@ buyPremiumBtn.addEventListener('click', async () => {
     buyPremiumBtn.disabled = true;
     
     try {
+        // Load Razorpay script if not already loaded
+        if (typeof Razorpay === 'undefined') {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        
         // Step 1: Create order
         const orderResponse = await fetch(`${API_CONFIG.API_BASE_URL}/premium/create-order`, {
             method: 'POST',
