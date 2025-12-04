@@ -258,6 +258,8 @@ if (continueToApp) {
             if (token) {
                 setCookie(API_CONFIG.TOKEN_KEY, token);
             }
+            // Mark as new user to show tutorial
+            sessionStorage.setItem('showWelcomeTutorial', 'true');
             window.location.href = '/' + username;
         }
     });

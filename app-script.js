@@ -2696,7 +2696,31 @@ async function showCanvasShareDialog() {
 // Initialize - Make async to properly wait for data
 (async function init() {
     await renderRants(); // This will also call updateStats
+    
+    // Show welcome tutorial for new users
+    const isNewUser = sessionStorage.getItem('showWelcomeTutorial');
+    if (isNewUser === 'true') {
+        sessionStorage.removeItem('showWelcomeTutorial');
+        setTimeout(() => showWelcomeTutorial(), 1000);
+    }
 })();
+
+// Welcome Tutorial for New Users
+async function showWelcomeTutorial() {
+    await showAlert(
+        `🎉 Welcome to duvv.me!\n\n` +
+        `Here's how it works:\n\n` +
+        `1️⃣ Create a Duvv (question) by clicking "Start duvingg"\n` +
+        `2️⃣ Choose a preset or write your own question\n` +
+        `3️⃣ Pick a theme and publish it\n` +
+        `4️⃣ Share your link with friends\n` +
+        `5️⃣ Get anonymous responses (text, audio, or drawings!)\n\n` +
+        `Your link: duvv.me/${username} 🔗\n\n` +
+        `Let's create your first duvv! 🚀`,
+        'Quick Tutorial',
+        '💭'
+    );
+}
 
 // Add after premium logic and before renderRants()
 let themeChangeModal = null;
