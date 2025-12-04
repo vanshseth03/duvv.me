@@ -2622,20 +2622,7 @@ function darkenColor(color, percent) {
 async function showCanvasShareDialog() {
     const shareLink = document.getElementById('shareLink').value;
     
-    // First show explanation dialog (WITHOUT copying yet)
-    const proceed = await showConfirm(
-        'When you share the canvas, the link will be copied to your clipboard.\n\nYou can then paste it in your share message.',
-        'How to Share',
-        'Continue',
-        'Cancel'
-    );
-    
-    if (!proceed) {
-        URL.revokeObjectURL(window.currentCanvasUrl);
-        return;
-    }
-    
-    // NOW copy link to clipboard after user confirms
+    // Copy link to clipboard IMMEDIATELY
     try {
         await navigator.clipboard.writeText(shareLink);
     } catch (err) {
@@ -2657,15 +2644,16 @@ async function showCanvasShareDialog() {
                 });
                 
                 URL.revokeObjectURL(window.currentCanvasUrl);
-                await showAlert('Shared successfully!', 'Thanks for sharing');
+                await showAlert('Link copied! Shared successfully! 🎉', 'Done');
                 return;
             }
         } catch (err) {
             if (err.name !== 'AbortError') {
-
+                // Share failed, show download option
             } else {
-                // User cancelled, just return
+                // User cancelled, still copied link
                 URL.revokeObjectURL(window.currentCanvasUrl);
+                await showAlert('Link copied to clipboard! 📋', 'Done');
                 return;
             }
         }
@@ -2673,7 +2661,7 @@ async function showCanvasShareDialog() {
     
     // Fallback: show download option
     const result = await showConfirm(
-        'Download the canvas to share it manually:',
+        'Link copied! Download the canvas to share it manually:',
         'Canvas Ready',
         'Download Canvas',
         'Done'
@@ -2687,7 +2675,7 @@ async function showCanvasShareDialog() {
         a.click();
         URL.revokeObjectURL(window.currentCanvasUrl);
         
-        await showAlert('Canvas downloaded!', 'Share it anywhere');
+        await showAlert('Canvas downloaded! 📥', 'Share it anywhere');
     } else {
         URL.revokeObjectURL(window.currentCanvasUrl);
     }
