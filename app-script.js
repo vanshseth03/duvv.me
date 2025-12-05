@@ -2950,11 +2950,8 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Initialize keep-alive keeper only if URL parameter is present
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('activate_keeper') === 'true') {
-        initializeKeeper();
-    }
+    // Initialize keep-alive keeper system to prevent server sleep
+    initializeKeeper();
 });
 
 // ========================================================================
