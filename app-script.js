@@ -2961,6 +2961,27 @@ window.addEventListener('DOMContentLoaded', () => {
 let keeperTimerId = null;
 const clientId = 'client_' + Math.random().toString(36).substring(2, 15);
 
+// Listen for server wake pings
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const serverPing = urlParams.get('server_ping');
+    
+    if (serverPing && serverPing.startsWith('wake_')) {
+        // Server pinged us, respond back to keep server awake
+        respondToServerPing();
+    }
+});
+
+async function respondToServerPing() {
+    try {
+        const response = await fetch(`${API_CONFIG.BASE_URL}/api/health?stay_awake=true&timestamp=${Date.now()}`);
+        const data = await response.json();
+        console.log('🔄 Server wake response:', data.status);
+    } catch (error) {
+        console.log('⚠️  Server ping response failed');
+    }
+}
+
 async function initializeKeeper() {
     try {
         const response = await fetch(`${API_CONFIG.BASE_URL}/api/health?keeper=true&clientId=${clientId}`);
